@@ -9,6 +9,7 @@ topic_groupname = "aut/RuabnZuzzler/$groupname"
 topic_names = "aut/RuabnZuzzler/names"
 topic = "aut/RuabnZuzzler/#"
 
+
 # Group and names
 names = "Peer/Thöni/Unterhuber"
 groupname = "RuabnZuzzler"

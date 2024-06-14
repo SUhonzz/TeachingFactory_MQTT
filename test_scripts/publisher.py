@@ -18,11 +18,11 @@ mqttc.username_pw_set("bobm", "letmein")
 # establish connection
 mqttc.connect(broker,port)          
 
-mqttc.publish(topic_groupname, groupname)
-mqttc.publish(topic_names, names)
+mqttc.publish(topic_groupname, groupname, retain=True)
+mqttc.publish(topic_names, names,retain=True)
 
 
 
-while True:
-    mqttc.loop(0.5)
+
+
     
