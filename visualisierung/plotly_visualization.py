@@ -10,6 +10,8 @@ import plotly.express as px
 df = px.data.gapminder().query("continent=='Oceania'")
 fig = px.line(df, x="year", y="lifeExp", color='country')
 fig.show()"""
+
+
 #%%
 #Scatter Plots
 import plotly.express as px
@@ -25,6 +27,12 @@ import plotly.express as px
 df = px.data.tips()
 fig = px.scatter(df, x="total_bill", y="tip", trendline="ols")
 fig.show()
+
+#%%
+import statsmodels
+
+y = df["tips"]
+x = df["total_bills"]
 
 
 #%%
@@ -61,3 +69,6 @@ df = px.data.iris()
 fig = px.scatter_3d(df, x='sepal_length', y='sepal_width', z='petal_width',
               color='species')
 fig.show()
+
+
+#%%
