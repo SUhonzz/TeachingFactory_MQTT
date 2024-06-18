@@ -19,30 +19,33 @@ def get_entries_for_topic(db, topic):
         return {}
 
 def create_disp_df(db, topic):
-    df = pd.DataFrame(columns=["index", "bottle", "time", "fill_level_grams"])
     entries = get_entries_for_topic(db, topic)
+    disp = F"fill_level_grams-{entries["1"]["dispenser"]}"
+    df = pd.DataFrame(columns=["bottle", "time", disp])
     for key in entries:
-        df.loc[len(df)] = [key, entries[key]['bottle'], entries[key]['time'], entries[key]['fill_level_grams']]
+        df.loc[len(df)] = [entries[key]['bottle'], entries[key]['time'], entries[key]['fill_level_grams']]
     return df
 
 def create_disp_vibration_df(db, topic):
-    df = pd.DataFrame(columns=["index", "bottle", "time", "vibration-index"])
     entries = get_entries_for_topic(db, topic)
+    disp = F"vibration-index-{entries["1"]["dispenser"]}"
+    df = pd.DataFrame(columns=["bottle", "time", disp])
+
     for key in entries:
-        df.loc[len(df)] = [key, entries[key]['bottle'], entries[key]['time'], entries[key]['vibration-index']]
+        df.loc[len(df)] = [entries[key]['bottle'], entries[key]['time'], entries[key]['vibration-index']]
     return df
 def create_temp_df(db, topic):
-    df = pd.DataFrame(columns=["index", "time", "temperature_C"])
+    df = pd.DataFrame(columns=["time", "temperature_C"])
     entries = get_entries_for_topic(db, topic)
     for key in entries:
-        df.loc[len(df)] = [key, entries[key]['time'], entries[key]['temperature_C']]
+        df.loc[len(df)] = [entries[key]['time'], entries[key]['temperature_C']]
     return df
 
 def create_ground_df(db, topic):
-    df = pd.DataFrame(columns=["index", "bottle", "is_cracked"])
+    df = pd.DataFrame(columns=["bottle", "is_cracked"])
     entries = get_entries_for_topic(db, topic)
     for key in entries:
-        df.loc[len(df)] = [key, entries[key]['bottle'], entries[key]['is_cracked']]
+        df.loc[len(df)] = [entries[key]['bottle'], entries[key]['is_cracked']]
     return df
 
 def create_vibration_df(db, topic):
@@ -50,6 +53,13 @@ def create_vibration_df(db, topic):
     entries = get_entries_for_topic(db, topic)
     for key in entries:
         df[entries[key]['bottle']] = entries[key]['drop_vibration']
+    return df
+
+def create_weight_df(db, topic):
+    df = pd.DataFrame(columns=["bottle", "time", "final_weight"])
+    entries = get_entries_for_topic(db, topic)
+    for key in entries:
+        df.loc[len(df)] = [entries[key]['bottle'], entries[key]['time'], entries[key]['final_weight']]
     return df
 
 fill_disp_red = create_disp_df(db, "iot1/teaching_factory_fast/dispenser_red")
@@ -65,7 +75,20 @@ ground_truth = create_ground_df(db, "iot1/teaching_factory_fast/ground_truth")
 
 vibrations = create_vibration_df(db, "iot1/teaching_factory_fast/drop_vibration")
 
-#print(fill_disp_blue_vibration)
+final_weight = create_weight_df(db, "iot1/teaching_factory_fast/scale/final_weight")
+
+#print(fill_disp_red.head())
+#print(fill_disp_red_vibration.head())
+#print(temperatures.head())
+
+combined_df = pd.merge(fill_disp_red.drop(['time'], axis=1), fill_disp_blue.drop(['time'], axis=1), on='bottle')
+combined_df = pd.merge(combined_df, fill_disp_green.drop(['time'], axis=1), on='bottle')
+combined_df = pd.merge(combined_df, fill_disp_red_vibration.drop(['time'], axis=1), on='bottle')
+combined_df = pd.merge(combined_df, fill_disp_blue_vibration.drop(['time'], axis=1), on='bottle')
+combined_df = pd.merge(combined_df, fill_disp_green_vibration.drop(['time'], axis=1), on='bottle')
+#combined_df = pd.merge(combined_df, temperatures.drop(['time'], axis=1), on='bottle')
+
+print(combined_df)
 
 data = pd.DataFrame(["temp_mean_C","vibration-red-vibration","vibration-blue-vibration","vibration-green-vibration",
                      "fill_level_grams-red","fill_level_grams-blue","fill_level_grams-green"])
