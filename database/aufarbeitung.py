@@ -79,16 +79,14 @@ final_weight = create_weight_df(db, "iot1/teaching_factory_fast/scale/final_weig
 
 #print(fill_disp_red.head())
 #print(fill_disp_red_vibration.head())
-#print(temperatures.head())
+#print(final_weight.head())
 
 combined_df = pd.merge(fill_disp_red.drop(['time'], axis=1), fill_disp_blue.drop(['time'], axis=1), on='bottle')
 combined_df = pd.merge(combined_df, fill_disp_green.drop(['time'], axis=1), on='bottle')
 combined_df = pd.merge(combined_df, fill_disp_red_vibration.drop(['time'], axis=1), on='bottle')
 combined_df = pd.merge(combined_df, fill_disp_blue_vibration.drop(['time'], axis=1), on='bottle')
 combined_df = pd.merge(combined_df, fill_disp_green_vibration.drop(['time'], axis=1), on='bottle')
-#combined_df = pd.merge(combined_df, temperatures.drop(['time'], axis=1), on='bottle')
+combined_df = pd.merge(combined_df, final_weight.drop(['time'], axis=1), on='bottle')
 
 print(combined_df)
-
-data = pd.DataFrame(["temp_mean_C","vibration-red-vibration","vibration-blue-vibration","vibration-green-vibration",
-                     "fill_level_grams-red","fill_level_grams-blue","fill_level_grams-green"])
+combined_df.to_csv("combined.csv", index=False)
