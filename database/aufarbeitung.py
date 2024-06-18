@@ -25,6 +25,9 @@ def create_disp_df(db, topic):
         df.loc[len(df)] = [key, entries[key]['bottle'], entries[key]['time'], entries[key]['fill_level_grams']]
     return df
 
+create_disp_vibration_df(db, topic):
+df = pd.DataFrame(columns=["index", "bottle",
+
 def create_temp_df(db, topic):
     df = pd.DataFrame(columns=["index", "time", "temperature_C"])
     entries = get_entries_for_topic(db, topic)
