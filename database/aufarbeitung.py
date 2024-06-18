@@ -3,7 +3,7 @@ import json
 import pandas as pd
 from tinydb import TinyDB, Query
 #%%
-db = TinyDB('./database/db.json')
+db = TinyDB('db.json')
 
 def get_entries_for_topic(db, topic):
     try:
@@ -25,9 +25,12 @@ def create_disp_df(db, topic):
         df.loc[len(df)] = [key, entries[key]['bottle'], entries[key]['time'], entries[key]['fill_level_grams']]
     return df
 
-create_disp_vibration_df(db, topic):
-df = pd.DataFrame(columns=["index", "bottle",
-
+def create_disp_vibration_df(db, topic):
+    df = pd.DataFrame(columns=["index", "bottle", "time", "vibration-index"])
+    entries = get_entries_for_topic(db, topic)
+    for key in entries:
+        df.loc[len(df)] = [key, entries[key]['bottle'], entries[key]['time'], entries[key]['vibration-index']]
+    return df
 def create_temp_df(db, topic):
     df = pd.DataFrame(columns=["index", "time", "temperature_C"])
     entries = get_entries_for_topic(db, topic)
@@ -53,9 +56,16 @@ fill_disp_red = create_disp_df(db, "iot1/teaching_factory_fast/dispenser_red")
 fill_disp_blue = create_disp_df(db, "iot1/teaching_factory_fast/dispenser_blue")
 fill_disp_green = create_disp_df(db, "iot1/teaching_factory_fast/dispenser_green")
 
+fill_disp_red_vibration = create_disp_vibration_df(db, "iot1/teaching_factory_fast/dispenser_red/vibration")
+fill_disp_blue_vibration = create_disp_vibration_df(db, "iot1/teaching_factory_fast/dispenser_blue/vibration")
+fill_disp_green_vibration = create_disp_vibration_df(db, "iot1/teaching_factory_fast/dispenser_green/vibration")
+
 temperatures = create_temp_df(db, "iot1/teaching_factory_fast/temperature")
 ground_truth = create_ground_df(db, "iot1/teaching_factory_fast/ground_truth")
 
 vibrations = create_vibration_df(db, "iot1/teaching_factory_fast/drop_vibration")
 
-#print(vibrations)
+#print(fill_disp_blue_vibration)
+
+data = pd.DataFrame(["temp_mean_C","vibration-red-vibration","vibration-blue-vibration","vibration-green-vibration",
+                     "fill_level_grams-red","fill_level_grams-blue","fill_level_grams-green"])
