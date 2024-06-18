@@ -10,14 +10,14 @@ port = 1883
 # Topics
 topic = "iot1/teaching_factory_fast/"
 
-subT_disp_red = "dispenser_red"
-subT_disp_green = "dispenser_green"
-subT_disp_blue = "dispenser_blue"
-subT_recipe = "recipe"
-subT_temp = "temperature"
-subT_scale = "scale"
-subT_drop_vibr = "drop_vibration"
-subT_ground_truth = "ground_truth"
+subT_disp_red = "dispenser_red/#"
+subT_disp_green = "dispenser_green/#"
+subT_disp_blue = "dispenser_blue/#"
+subT_recipe = "recipe/#"
+subT_temp = "temperature/#"
+subT_scale = "scale/final_weight"
+subT_drop_vibr = "drop_vibration/#"
+subT_ground_truth = "ground_truth/#"
 
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 # Set username and password for the MQTT broker
