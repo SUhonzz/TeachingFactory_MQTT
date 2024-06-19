@@ -20,7 +20,7 @@ def get_entries_for_topic(db, topic):
 
 def create_disp_df(db, topic):
     entries = get_entries_for_topic(db, topic)
-    disp = F"fill_level_grams-{entries["1"]["dispenser"]}"
+    disp = F"fill_level_grams_{entries["1"]["dispenser"]}"
     df = pd.DataFrame(columns=["bottle", "time", disp])
     for key in entries:
         df.loc[len(df)] = [entries[key]['bottle'], entries[key]['time'], entries[key]['fill_level_grams']]
@@ -28,7 +28,7 @@ def create_disp_df(db, topic):
 
 def create_disp_vibration_df(db, topic):
     entries = get_entries_for_topic(db, topic)
-    disp = F"vibration-index-{entries["1"]["dispenser"]}"
+    disp = F"vibration-index_{entries["1"]["dispenser"]}"
     df = pd.DataFrame(columns=["bottle", "time", disp])
 
     for key in entries:
@@ -79,7 +79,7 @@ final_weight = create_weight_df(db, "iot1/teaching_factory_fast/scale/final_weig
 
 #print(fill_disp_red.head())
 #print(fill_disp_red_vibration.head())
-#print(final_weight.head())
+print(temperatures.head())
 
 combined_df = pd.merge(fill_disp_red.drop(['time'], axis=1), fill_disp_blue.drop(['time'], axis=1), on='bottle')
 combined_df = pd.merge(combined_df, fill_disp_green.drop(['time'], axis=1), on='bottle')
