@@ -2,7 +2,7 @@
 
 
 ## Aufgabe 12.1 Senden und Empfangen von Daten
-Die Erfüllung dieser Aufgabe ist unter "mqtt_client/subscriber.py" zu finden.
+Die Erfüllung dieser Aufgabe ist unter "mqtt_client/subscriber.py" zu finden. Die Vorgänger- bzw. Testvariante ist unter "root/test_scripts/publisher" und unter "root/test_scripts/subscriber" ersichtlich. 
 
 ## Aufgabe 12.2 Speichern der Daten
 Gespeichert werden die erhaltenen Daten als .json-File in "database/db.json". Die Aufarbeitung der Datenbank findet in "root/aufarbeitung.py" statt. Die jeweilig sortierten Daten werden in separaten .CSV-Dateien in "database/" als "disp_blue", "disp_green" und "disp_red" sortiert. 
