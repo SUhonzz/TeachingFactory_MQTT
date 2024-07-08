@@ -65,3 +65,6 @@ test_data_predict = lin_model.predict(test_data)
 #test_predicted_df = pd.DataFrame(test_data_predict, columns=['Flaschen ID','y_hat'])
 test_predicted_df = pd.DataFrame({'Flaschen ID': test_data.index+1, 'y_hat': test_data_predict})
 test_predicted_df.to_csv('./database/52216067-62200066-61901292.csv', index=False)
+
+print(lin_model.coef_)
+print(lin_model.intercept_)

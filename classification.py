@@ -1,4 +1,3 @@
-import neurokit2 as nk
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -13,12 +12,8 @@ test_sz = 0.3
 
 cracked_vibrations = pd.read_csv('./database/cracked_vibrations.csv') # mean vibrations and is_cracked
 fourier_vibrations = pd.read_csv('./database/vibrations_fourier.csv') # dominant frequencies and is_cracked
-print(cracked_vibrations.head())
-print(fourier_vibrations.head())
-
 both_features_df = pd.merge(cracked_vibrations.drop(['is_cracked'], axis=1), fourier_vibrations, on='bottle')
 
-print(both_features_df.head())
 
 # Using only the mean-vibration data as the feature
 X = cracked_vibrations['mean_vibration'].values.reshape(-1, 1)
