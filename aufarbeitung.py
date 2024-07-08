@@ -1,8 +1,9 @@
 #%%
+
 import json
 import pandas as pd
 from tinydb import TinyDB, Query
-#%%
+import numpy as np
 db = TinyDB('./database/db.json')
 
 def get_entries_for_topic(db, topic):
@@ -88,8 +89,53 @@ combined_df = pd.merge(combined_df, fill_disp_blue_vibration.drop(['time'], axis
 combined_df = pd.merge(combined_df, fill_disp_green_vibration.drop(['time'], axis=1), on='bottle')
 combined_df = pd.merge(combined_df, final_weight.drop(['time'], axis=1), on='bottle')
 
-print(combined_df.head())
+#print(combined_df.head())
 combined_df.to_csv("./database/combined.csv", index=False)
 
-print(vibrations.head())
-vibrations.to_csv("./database/vibrations.csv", index=False)
+
+#print(vibrations.head())
+print(ground_truth.head())
+
+vibrations = vibrations.astype(float)
+mean_vibrations = []
+for bottle_id in vibrations.columns:
+    mean_vib = vibrations[bottle_id].mean()
+    mean_vibrations.append({"bottle": bottle_id, "mean_vibration": mean_vib})
+
+mean_vibrations_df = pd.DataFrame(mean_vibrations)
+
+print(mean_vibrations_df.head())
+
+cracked_vibrations_df = pd.merge(mean_vibrations_df, ground_truth, on='bottle')
+print(cracked_vibrations_df.head())
+
+cracked_vibrations_df.to_csv("./database/cracked_vibrations.csv", index=False)
+
+
+# Calc Fourier Transform of vibration data
+sampling_rates = [50, 100, 150] # Hz
+
+fourier_results = []
+
+for bottle_id in vibrations.columns:
+    vibration_data = vibrations[bottle_id]
+    bottle_fourier_result = {"bottle": bottle_id}
+
+    for rate in sampling_rates:
+
+        fourier = np.fft.fft(vibration_data)
+        freqs = np.fft.fftfreq(len(vibration_data), d=1/rate)
+        
+        idx = np.argmax(np.abs(fourier))
+        dominant_freq = freqs[idx]
+
+        bottle_fourier_result[f"dominant_freq_{rate}Hz"] = dominant_freq
+    
+    fourier_results.append(bottle_fourier_result)
+
+fourier_df = pd.DataFrame(fourier_results)
+fourier_df = pd.merge(fourier_df, ground_truth, on='bottle')
+print(fourier_df.head())
+
+fourier_df.to_csv("./database/vibrations_fourier.csv", index=False)
+    

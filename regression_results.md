@@ -19,3 +19,4 @@ Bestes Regressionsmodell: Lineare Regression ohne Füllstände
 
 ## Regression an Datensatz 'X.csv'
 
+Die Ergebnisse der durchgeführten Regression, nämlich das vorhergesehene Gewicht der Flaschen basierend auf den bereitgestellten Daten in 'X.csv', wurden im Verzeichnis './database/52216067-62200066-61901292.csv' abgespeichert
