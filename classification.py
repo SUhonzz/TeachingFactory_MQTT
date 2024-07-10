@@ -44,13 +44,13 @@ X_train_both, X_test_both, y_train_both, y_test_both = train_test_split(X_both, 
 #model_fourier = DecisionTreeClassifier()
 #model_both = DecisionTreeClassifier()
 
-model = KNeighborsClassifier(n_neighbors=3)
-model_fourier = KNeighborsClassifier(n_neighbors=3)
-model_both = KNeighborsClassifier(n_neighbors=3)
+#model = KNeighborsClassifier(n_neighbors=3)
+#model_fourier = KNeighborsClassifier(n_neighbors=3)
+#model_both = KNeighborsClassifier(n_neighbors=3)
 
-#model = LogisticRegression()
-#model_fourier = LogisticRegression()
-#model_both = LogisticRegression()
+model = LogisticRegression()
+model_fourier = LogisticRegression()
+model_both = LogisticRegression()
 
 #-------------------------------------------------------------------------------------------------------------------#
 
