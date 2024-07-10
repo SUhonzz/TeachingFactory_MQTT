@@ -82,6 +82,19 @@ final_weight = create_weight_df(db, "iot1/teaching_factory_fast/scale/final_weig
 #print(fill_disp_red_vibration.head())
 #print(temperatures.head())
 
+
+
+fill_levels_time = pd.merge(fill_disp_red.drop(['bottle'], axis=1), fill_disp_blue.drop(['bottle'], axis=1), on='time')
+fill_levels_time = pd.merge(fill_levels_time, fill_disp_green.drop(['bottle'], axis=1), on='time')
+
+print(fill_levels_time.head())
+fill_levels_time.to_csv("./database/fill_levels_time.csv", index=False)
+
+temperatures.to_csv("./database/temperatures.csv", index=False)
+
+final_weight.to_csv("./database/final_weight.csv", index=False)
+
+
 combined_df = pd.merge(fill_disp_red.drop(['time'], axis=1), fill_disp_blue.drop(['time'], axis=1), on='bottle')
 combined_df = pd.merge(combined_df, fill_disp_green.drop(['time'], axis=1), on='bottle')
 combined_df = pd.merge(combined_df, fill_disp_red_vibration.drop(['time'], axis=1), on='bottle')
@@ -93,8 +106,6 @@ combined_df = pd.merge(combined_df, final_weight.drop(['time'], axis=1), on='bot
 combined_df.to_csv("./database/combined.csv", index=False)
 
 
-#print(vibrations.head())
-print(ground_truth.head())
 
 vibrations = vibrations.astype(float)
 mean_vibrations = []
@@ -104,10 +115,9 @@ for bottle_id in vibrations.columns:
 
 mean_vibrations_df = pd.DataFrame(mean_vibrations)
 
-print(mean_vibrations_df.head())
+
 
 cracked_vibrations_df = pd.merge(mean_vibrations_df, ground_truth, on='bottle')
-print(cracked_vibrations_df.head())
 
 cracked_vibrations_df.to_csv("./database/cracked_vibrations.csv", index=False)
 
@@ -135,7 +145,6 @@ for bottle_id in vibrations.columns:
 
 fourier_df = pd.DataFrame(fourier_results)
 fourier_df = pd.merge(fourier_df, ground_truth, on='bottle')
-print(fourier_df.head())
 
 fourier_df.to_csv("./database/vibrations_fourier.csv", index=False)
     
