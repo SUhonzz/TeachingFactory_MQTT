@@ -1,27 +1,48 @@
 import paho.mqtt.client as mqtt
 import json
+import configparser
 from tinydb import TinyDB, Query
 db = TinyDB('../database/db.json')
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+password = config['login']['password']
+username = config['login']['username']
+
 # MQTT broker details
-broker = "158.180.44.197"
-port = 1883
+broker = config['MQTT']['broker']
+port = config['MQTT']['port']
 
 # Topics
-topic = "iot1/teaching_factory_fast/"
+topic = config['Topics']['topic']
 
-subT_disp_red = "dispenser_red/#"
-subT_disp_green = "dispenser_green/#"
-subT_disp_blue = "dispenser_blue/#"
-subT_recipe = "recipe/#"
-subT_temp = "temperature/#"
-subT_scale = "scale/final_weight"
-subT_drop_vibr = "drop_vibration/#"
-subT_ground_truth = "ground_truth/#"
+subT_disp_red = config['Topics']['subT_disp_red']
+subT_disp_green = config['Topics']['subT_disp_green']
+subT_disp_blue = config['Topics']['subT_disp_blue']
+subT_recipe = config['Topics']['subT_recipe']
+subT_temp = config['Topics']['subT_temp']
+subT_scale = config['Topics']['subT_scale']
+subT_drop_vibr = config['Topics']['subT_drop_vibr']
+subT_ground_truth = config['Topics']['subT_ground_truth']
+
+#print all of the config readouts -DEBUG-
+#print(password)
+#print(username)
+#print(topic)
+#print(subT_disp_red)
+#print(subT_disp_green)
+#print(subT_disp_blue)
+#print(subT_recipe)
+#print(subT_temp)
+#print(subT_scale)
+#print(subT_drop_vibr)
+#print(subT_ground_truth)
+
 
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 # Set username and password for the MQTT broker
-mqttc.username_pw_set("bobm", "letmein")
+mqttc.username_pw_set(username, password)
 
 def store_data(payload_dict, topic):
     if not db.table(topic):
