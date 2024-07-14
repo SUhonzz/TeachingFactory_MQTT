@@ -6,8 +6,10 @@ Die Erfüllung dieser Aufgabe ist unter "mqtt_client/subscriber.py" zu finden. D
 
 ## Aufgabe 12.2 Speichern der Daten
 Gespeichert werden die erhaltenen Daten als .json-File in "database/db.json", realisiert mit tinydb. Die Aufarbeitung der Datenbank findet in "root/aufarbeitung. py" statt. Zur einfachen Verwendung in anderen Dateien wurden viele aufbereitete DataFrames auch als .csv-Datei exportiert.
+Der MQTT-Zugang und die gewünschten Topics können unter "mqtt_client/config.ini" definiert werden.  
+Es wurde außerdem ein Dashboard via streamlit realisiert (visualisierung/streamlit.py), mit der verschiedenste Werte über eine beliebige Zeitreihe visualisiert werden können.  
 
-TODO: beliebige Zeitreihe visualisieren, Dashboard, config-Datei für MQTT, Was bei Verbindungsabbruch? REST-Schnittstelle?
+<img src="streamlit_screenshot.png" alt="streamlit-dashboard screenshot" title="Streamlit Dashboard" width="50%">
 
 ## Aufgabe 12.3 Regressionsmodell
 Das File "root/regression.py" beinhaltet die Bildung der Regressionsgeraden des Datensatzes. Das ausgewertete Ergebnis wird anschließend in "root/regression_results.md" abgebildet. Die Prognose von 'X.csv' wurde unter "database/52216067-62200066-61901292.csv" abgespeichert.
